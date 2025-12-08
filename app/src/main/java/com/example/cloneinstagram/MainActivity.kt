@@ -53,6 +53,10 @@ import kotlinx.coroutines.delay
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 
 
 data class User(
@@ -89,87 +93,86 @@ class MainActivity : ComponentActivity() {
                     ) {
                         val stories = listOf(
                         User(
-                            profile=R.drawable.profile,
-                            name="A"
+                            profile=R.drawable.aprofile,
+                            name="mintzora"
                         ),
                         User(
-                            profile=R.drawable.profile,
-                            name="B"
+                            profile=R.drawable.bprofile,
+                            name="cloudingbyte"
                         ),
                         User(
-                            profile=R.drawable.profile,
-                            name="C"
+                            profile=R.drawable.cprofile,
+                            name="hollowkiwi"
                         ),
                         User(
-                            profile=R.drawable.profile,
-                            name="D"
+                            profile=R.drawable.dprofile,
+                            name="nightlymono"
                         ),
                         User(
-                            profile=R.drawable.profile,
-                            name="E"
+                            profile=R.drawable.eprofile,
+                            name="velvetphase"
                         ),
                         User(
-                            profile=R.drawable.profile,
-                            name="F"
+                            profile=R.drawable.fprofile,
+                            name="lurkysun"
                         ),
                             User(
-                                profile=R.drawable.profile,
-                                name="G"
+                                profile=R.drawable.gprofile,
+                                name="sloworbitz"
                             ),
                         )
-
-
                         val posts = listOf(
                             Post(
                                 user = stories[0],
-                                post=R.drawable.profile,
-                                description = "Coffee first, code later  #developerlife",
+                                post=R.drawable.apost,
+                                description = "เก็บความเหนื่อยไว้บนฝั่ง แล้วปล่อยใจลอยกลางทะเล",
                                 likesCount = (100..10000).random(),
                                 commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[1],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.bpost,
+                            description = "พักใจไว้ที่วัด เติมพลังให้ตัวเอง",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[2],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.cpost,
+                            description = "แสงไฟเยาวราช กับอร่อยทุกซอกซอย",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[3],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.dpost,
+                            description = "กรุงเทพยามเย็น…สวยกว่าที่เคยคิด",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[4],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.epost,
+                            description = "มุมเงียบ ๆ กับแก้วที่ใช่ ก็พอแล้ว",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[5],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.fpost,
+                            description = "เดินห้างเพราะอากาศดี…แต่ถ่ายรูปเพราะมุมมันได้",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         Post(
                             user = stories[6],
-                            post=R.drawable.profile,
-                            description = "Coffee first, code later  #developerlife",
+                            post=R.drawable.gpost,
+                            description = "สู้ต่อไป…เดี๋ยวก็จบแล้ว",
                             likesCount = (100..10000).random(),
                             commentsCount = (100..10000).random()
                         ),
                         )
+
                         Posts(stories = stories,posts=posts)
 
                     }
@@ -183,10 +186,9 @@ fun Posts(
     stories:List<User>,
     posts:List<Post>
 ) {
-    val context = LocalContext.current
     LazyColumn(
         modifier=Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ){
         item {
             Stories(stories = stories)
@@ -226,14 +228,16 @@ fun Posts(
                         contentAlignment = Alignment.Center
                     ){
                         Image(
-                            modifier = Modifier.size(30.dp).clip(CircleShape),
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(CircleShape),
                             painter = painterResource(id=post.user.profile),
                             contentDescription = "${post.user.name} Profile",
                             contentScale = ContentScale.Crop
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = post.user.name)
+                    Text(text = post.user.name, fontWeight = FontWeight.Bold)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -243,7 +247,9 @@ fun Posts(
                 })
             }, contentAlignment = Alignment.Center){
                 Image(
-                    modifier = Modifier.fillMaxWidth() .aspectRatio(1f),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
 
                     painter = painterResource(id=post.post),
                     contentDescription = "${post.post} Profile",
@@ -295,11 +301,20 @@ fun Posts(
             }
             Spacer(modifier = Modifier.height(6.dp))
             Column(modifier = Modifier.padding(horizontal = 8.dp)) {
-                Text(text = "${post.likesCount} likes", fontSize = 13.sp)
+                Text(text = "${post.likesCount} likes", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = post.description, fontSize = 13.sp)
+                Text(
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(post.user.name + " ")
+                        }
+                        append(post.description)
+                    },
+                    fontSize = 16.sp
+                )
+
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = "View all ${post.commentsCount} comments", fontSize = 12.sp, color = Color.Gray)
+                Text(text = "View all ${post.commentsCount} comments", fontSize = 14.sp, color = Color.Gray)
             }
         }
     }
@@ -308,7 +323,6 @@ fun Posts(
 
 @Composable
 fun Stories(stories:List<User>){
-    val context = LocalContext.current
 
     LazyRow(
         verticalAlignment = Alignment.CenterVertically,
@@ -322,22 +336,26 @@ fun Stories(stories:List<User>){
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ){
-                Box(modifier=Modifier.border(4.dp, Brush.horizontalGradient(
-                        listOf(
-                            Color(0xfffff6f00),
-                            Color(0xfffffeb35),
-                            Color(0xfffff6f00),
-                            Color(0xfffff2b99),
-                            Color(0xfffff2bd1),
-                            Color(0xfffff2bd1),
-                        )
-                    ),CircleShape
+                Box(modifier=Modifier
+                    .border(
+                        4.dp, Brush.horizontalGradient(
+                            listOf(
+                                Color(0xfffff6f00),
+                                Color(0xfffffeb35),
+                                Color(0xfffff6f00),
+                                Color(0xfffff2b99),
+                                Color(0xfffff2bd1),
+                                Color(0xfffff2bd1),
+                            )
+                        ), CircleShape
                     )
                     .size(70.dp),
                     contentAlignment = Alignment.Center
                 ){
                     Image(
-                        modifier = Modifier.size(66.dp).clip(CircleShape),
+                        modifier = Modifier
+                            .size(66.dp)
+                            .clip(CircleShape),
                         painter = painterResource(id=story.profile),
                         contentDescription = "${story.name} Profile",
                         contentScale = ContentScale.Crop
@@ -346,7 +364,7 @@ fun Stories(stories:List<User>){
                 Spacer(modifier=Modifier.height(4.dp))
                 Text(text=story.name,fontSize=14.sp)
             }
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(15.dp))
         }
     }
 }
@@ -396,7 +414,6 @@ val bottomBarItems = listOf(
 fun BottomBar(){
     Row(modifier = Modifier
         .fillMaxWidth()
-
         .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
@@ -409,8 +426,10 @@ fun BottomBar(){
             )
         }
         Image(
-            modifier = Modifier.size(30.dp).clip(CircleShape),
-            painter = painterResource(id=R.drawable.profile),
+            modifier = Modifier
+                .size(30.dp)
+                .clip(CircleShape),
+            painter = painterResource(id=R.drawable.dprofile),
             contentDescription = "User Profile",
             contentScale = ContentScale.Crop
         )
